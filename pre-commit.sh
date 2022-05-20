@@ -5,6 +5,10 @@
 #
 #    sh ./pre-commit.sh
 
+#!/usr/bin/env bash
+
+# If any command fails, exit immediately with that command's exit status
+set -eo pipefail
 
 make lint
 make static-checks
