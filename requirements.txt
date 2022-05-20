@@ -7,16 +7,16 @@ black
 # external requirements
 click
 coverage
-flake8
+pyproject-flake8
 isort
 mllint
 mypy
 nltk
 numpy
 pandas
-pre-commit
 pylint
 python-dotenv>=0.5.1
 sklearn
 Sphinx
 toml
+doc8

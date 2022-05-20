@@ -2,5 +2,10 @@
 profile = "black"
 
 [tool.black]
-line-length = 119
+line-length = 99
 include = '\.pyi?$'
+
+[tool.flake8]
+max-line-length = 99
+extend-ignore = "E203"
+max-complexity = 10
