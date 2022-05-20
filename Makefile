@@ -8,7 +8,7 @@ PROJECT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 BUCKET = [OPTIONAL] your-bucket-for-syncing-data (do not include 's3://')
 PROFILE = default
 PROJECT_NAME = remla
-PYTHON_INTERPRETER = python3
+PYTHON_INTERPRETER = python
 
 ifeq (,$(shell which conda))
 HAS_CONDA=False
@@ -36,7 +36,16 @@ clean:
 
 ## Lint using flake8
 lint:
-	flake8 src
+	$(PYTHON_INTERPRETER) -m black .
+	$(PYTHON_INTERPRETER) -m isort .
+
+static-checks:
+	-$(PYTHON_INTERPRETER) -m black --check .
+	-$(PYTHON_INTERPRETER) -m isort --check .
+	-$(PYTHON_INTERPRETER) -m pflake8 src
+	-$(PYTHON_INTERPRETER) -m bandit --ini .bandit
+	-$(PYTHON_INTERPRETER) -m mllint
+
 
 ## Upload Data to S3
 sync_data_to_s3:

@@ -1,8 +1,21 @@
 # Multilabel classification on Stack Overflow tags
 Predict tags for posts from StackOverflow with multilabel classification approach.
 
+## Something about project installation?
+### pre-commit hook
+A pre-commit hook that formats and checks (TODO test) code using black/isort/flake8/mllint/bandit 
+is configured in [`pre-commit.sh`](./pre-commit.sh). To enable git to run it before each commit create a file
+`pre-commit` in [`.git/hooks/`](.git/hooks/) with content:
+```
+#!/bin/sh
+
+sh ./pre-commit.sh
+```
+
+
 ## Dataset
 - Dataset of post titles from StackOverflow
+
 
 ## Transforming text to a vector
 - Transformed text data to numeric vectors using bag-of-words and TF-IDF.
