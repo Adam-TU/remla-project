@@ -1,12 +1,18 @@
-name: python-app
+name: REMLA-project
 on:
  push:
 
 jobs:
-  build:
+  static-checks:
     runs-on: ubuntu-latest
     steps:
     - name: checkout repo
       uses: actions/checkout@v2
-    - name: build application
+    - name Set up python
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.10'
+    - name: build environment
+      run: make requirements
+    - name: static checks
       run: make static-checks
