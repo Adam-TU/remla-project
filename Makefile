@@ -40,11 +40,11 @@ lint:
 	$(PYTHON_INTERPRETER) -m isort .
 
 static-checks:
-	-$(PYTHON_INTERPRETER) -m black --check .
-	-$(PYTHON_INTERPRETER) -m isort --check .
-	-$(PYTHON_INTERPRETER) -m pflake8 src
-	-$(PYTHON_INTERPRETER) -m bandit --ini .bandit
-	-$(PYTHON_INTERPRETER) -m mllint
+	$(PYTHON_INTERPRETER) -m black --check .
+	$(PYTHON_INTERPRETER) -m isort --check .
+	$(PYTHON_INTERPRETER) -m pflake8 src
+	$(PYTHON_INTERPRETER) -m bandit --ini .bandit
+	$(PYTHON_INTERPRETER) -m mllint
 
 
 ## Upload Data to S3
