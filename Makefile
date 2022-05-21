@@ -40,13 +40,27 @@ lint:
 	$(PYTHON_INTERPRETER) -m black .
 	$(PYTHON_INTERPRETER) -m isort .
 
-static-checks:
+check-black:
 	$(PYTHON_INTERPRETER) -m black --check .
+
+check-isort:
 	$(PYTHON_INTERPRETER) -m isort --check .
+
+check-flake8:
 	$(PYTHON_INTERPRETER) -m pflake8 src
+
+check-bandit:
 	$(PYTHON_INTERPRETER) -m bandit --ini .bandit
+
+check-mllint:
 	$(PYTHON_INTERPRETER) -m mllint
 
+check-all:
+	make check-black
+	make check-isort
+	make check-flake8
+	make check-bandit
+	make check-mllint
 
 ## Upload Data to S3
 sync_data_to_s3:

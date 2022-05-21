@@ -11,4 +11,8 @@
 set -eo pipefail
 
 make lint
-make static-checks | grep "Error 1 (ignored)"
+make check-black
+make check-isort
+make check-flake8
+make check-bandit
+make check-mllint
