@@ -30,6 +30,14 @@ jobs:
       if: always()
       id: mllint
       run: make check-mllint
+    - name: test
+      if: always()
+      run: |
+        echo "success"
+    - name: test mllint outcom
+      if: steps.mllint.outcome == 'success'
+      run: |
+        echo "success"
     - name: upload mllint report
       uses: actions/upload-artifact@v2
       if: steps.mllint.outcome == 'success'
