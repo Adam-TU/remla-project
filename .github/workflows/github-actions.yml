@@ -2,6 +2,11 @@ name: REMLA-project
 on:
  push:
 
+permissions:
+  actions: write
+  checks: write
+  contents: write
+
 jobs:
   static-checks:
     runs-on: ubuntu-latest
