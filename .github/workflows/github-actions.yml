@@ -34,13 +34,7 @@ jobs:
     - name: check mllint
       if: always()
       run: make check-mllint
-    - name: upload mllint report
-      uses: actions/upload-artifact@v2
-      if: always()
-      with:
-        name: mllint-report
-        path: reports/mllint_report.md
-    - name: Create CheckRun for code Coverage
+    - name: Publish mllint report to actions page
       uses: LouisBrunner/checks-action@v1.2.0
       if: always()
       with:
