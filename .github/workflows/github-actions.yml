@@ -28,9 +28,11 @@ jobs:
       run: make check-bandit
     - name: check mllint
       if: always()
+      id: mllint
       run: make check-mllint
     - name: upload mllint report
       uses: actions/upload-artifact@v2
+      if: steps.mllint.outcome == 'success'
       with:
         name: mllint-report
         path: reports/mllint_report.md
