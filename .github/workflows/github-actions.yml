@@ -35,3 +35,11 @@ jobs:
       with:
         name: mllint-report
         path: reports/mllint_report.md
+    - name: Create CheckRun for code Coverage
+      uses: LouisBrunner/checks-action@v1.2.0
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        name: Code Coverage
+        conclusion: ${{ job.status }}
+        output: "{\"summary\":\"mllint report\"}"
+        output_text_description_file: reports/mllint_report.md
