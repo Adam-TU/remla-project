@@ -29,3 +29,8 @@ jobs:
     - name: check mllint
       if: always()
       run: make check-mllint
+    - name: upload mllint report
+      uses: actions/upload-artifact@v2
+      with:
+        name: mllint-report
+        path: reports/mllint_report.md

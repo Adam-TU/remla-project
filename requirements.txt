@@ -20,3 +20,5 @@ python-dotenv>=0.5.1
 sklearn
 Sphinx
 toml
+mypy
+pylint

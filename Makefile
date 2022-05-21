@@ -53,6 +53,12 @@ check-bandit:
 	$(PYTHON_INTERPRETER) -m bandit --ini .bandit
 
 check-mllint:
+	$(PYTHON_INTERPRETER) -m mllint --output reports/mllint_report.md
+
+check-mypy:
+	$(PYTHON_INTERPRETER) -m mypy
+
+check-pylint:
 	$(PYTHON_INTERPRETER) -m mllint
 
 check-all:
