@@ -37,6 +37,7 @@ jobs:
         path: reports/mllint_report.md
     - name: Create CheckRun for code Coverage
       uses: LouisBrunner/checks-action@v1.2.0
+      if: always()
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         name: Code Coverage
