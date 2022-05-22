@@ -6,6 +6,7 @@ permissions:
   actions: write
   checks: write
   contents: write
+  packages: write
 
 jobs:
   static-checks:
