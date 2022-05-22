@@ -1,4 +1,4 @@
-name: Test workflow
+name: REMLA Workflow
 on:
   push:
   pull_request: {}
@@ -7,7 +7,6 @@ permissions:
   actions: write
   checks: write
   contents: write
-  packages: write
 
 jobs:
   static-checks:
