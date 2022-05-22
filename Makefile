@@ -72,7 +72,7 @@ check-all:
 	make check-mllint
 
 test:
-	(PYTHON_INTERPRETER) -m unittest
+	$(PYTHON_INTERPRETER) -m unittest
 
 ## Upload Data to S3
 sync_data_to_s3:
