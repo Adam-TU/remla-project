@@ -47,7 +47,10 @@ check-isort:
 	$(PYTHON_INTERPRETER) -m isort --check .
 
 check-flake8:
-	$(PYTHON_INTERPRETER) -m pflake8 src
+	# stop the build if there are Python syntax errors or undefined names
+	$(PYTHON_INTERPRETER) -m pflake8 src --count --select=E9,F63,F7,F82 --show-source --statistics
+  	# exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+	$(PYTHON_INTERPRETER) -m pflake8 src --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
 check-bandit:
 	$(PYTHON_INTERPRETER) -m bandit --ini .bandit
@@ -67,6 +70,9 @@ check-all:
 	make check-flake8
 	make check-bandit
 	make check-mllint
+
+test:
+	(PYTHON_INTERPRETER) -m unittest
 
 ## Upload Data to S3
 sync_data_to_s3:

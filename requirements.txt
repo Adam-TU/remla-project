@@ -22,3 +22,4 @@ Sphinx
 toml
 mypy
 pylint
+pytest

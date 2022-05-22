@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: checkout repo
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - name: Set up python
       uses: actions/setup-python@v3
       with:
@@ -43,3 +43,20 @@ jobs:
         conclusion: ${{ job.status }}
         output: "{\"summary\":\"mllint report\"}"
         output_text_description_file: reports/mllint_report.md
+
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Test with pytest
+        run: |
+          make test
