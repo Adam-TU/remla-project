@@ -7,6 +7,6 @@ COPY test_environment.py /app/
 COPY pyproject.toml /app/
 COPY setup.py /app/
 
-RUN sudo apt-get update
-RUN sudo apt-get -y install make
+RUN apt-get update
+RUN apt-get -y install make
 RUN make requirements
