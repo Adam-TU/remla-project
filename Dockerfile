@@ -5,5 +5,5 @@ COPY requirements.txt /app/
 COPY test_environment.py /app/
 COPY pyproject.toml /app/
 COPY setup.py /app/
-RUN apk add --update make
+RUN apt-get -y install make
 RUN make requirements
