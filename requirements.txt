@@ -9,7 +9,7 @@ click
 coverage
 pyproject-flake8
 isort
-mllint
+mllint==0.12.1
 mypy
 nltk
 numpy
