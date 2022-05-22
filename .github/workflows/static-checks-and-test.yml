@@ -1,6 +1,7 @@
-name: REMLA-project
+name: Test workflow
 on:
- push:
+  push:
+  pull_request: {}
 
 permissions:
   actions: write
@@ -46,26 +47,18 @@ jobs:
         output_text_description_file: reports/mllint_report.md
 
   test:
+    needs: static-checks
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v3
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v3
-        with:
-          python-version: ${{ matrix.python-version }}
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
       - name: Test with pytest
         run: |
           make test
 
   build:
+    needs: [static-checks, test]
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Parse version info from tag
         run: |
