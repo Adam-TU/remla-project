@@ -1,3 +1,0 @@
-[bandit]
-recursive = true
-targets=src/

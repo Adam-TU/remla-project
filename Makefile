@@ -50,19 +50,19 @@ check-flake8:
 	# stop the build if there are Python syntax errors or undefined names
 	$(PYTHON_INTERPRETER) -m pflake8 src --count --select=E9,F63,F7,F82 --show-source --statistics
   	# exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-	$(PYTHON_INTERPRETER) -m pflake8 src --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+	$(PYTHON_INTERPRETER) -m pflake8 src --count --exit-zero --max-complexity=10 --max-line-length=119 --statistics
 
 check-bandit:
-	$(PYTHON_INTERPRETER) -m bandit --ini .bandit
+	$(PYTHON_INTERPRETER) -m bandit -rc "pyproject.toml" ./src
 
 check-mllint:
 	$(PYTHON_INTERPRETER) -m mllint --output reports/mllint_report.md
 
 check-mypy:
-	$(PYTHON_INTERPRETER) -m mypy
+	$(PYTHON_INTERPRETER) -m mypy -p src
 
 check-pylint:
-	$(PYTHON_INTERPRETER) -m mllint
+	$(PYTHON_INTERPRETER) -m pylint
 
 check-all:
 	make check-black

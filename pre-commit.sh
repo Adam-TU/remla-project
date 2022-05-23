@@ -15,4 +15,3 @@ make check-black
 make check-isort
 make check-flake8
 make check-bandit
-make check-mllint
