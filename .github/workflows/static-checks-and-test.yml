@@ -46,9 +46,16 @@ jobs:
         output_text_description_file: reports/mllint_report.md
 
   test:
-    needs: static-checks
     runs-on: ubuntu-latest
     steps:
+      - name: checkout repo
+        uses: actions/checkout@v3
+      - name: Set up python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.8'
+      - name: build environment
+        run: make requirements
       - name: Test with pytest
         run: |
           make test
