@@ -28,7 +28,7 @@ def make_prediction(processed_title) -> "list[str]":
     model = load_pickle(MODEL_PATH)
     mlb = load_pickle(MLB_PATH)
     tfidf_vectorizer = load_pickle(VECTORIZER_PATH)
-    featurized_title = tfidf_vectorizer.transform(processed_title)
+    featurized_title = tfidf_vectorizer.transform([processed_title])
     prediction = model.predict(featurized_title)
     return mlb.inverse_transform(prediction)
 
