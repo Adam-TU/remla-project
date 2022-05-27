@@ -14,7 +14,7 @@ swagger = Swagger(app)
 
 def load_yaml_params():
     # Fetch params from yaml params file
-    with open("../params.yaml", encoding="utf-8") as f:
+    with open("params.yaml", encoding="utf-8") as f:
         return yaml.safe_load(f)
 
 
