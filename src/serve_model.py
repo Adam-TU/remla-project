@@ -1,14 +1,18 @@
 """
 Flask API of the SMS Spam detection model model.
 """
+import pickle
+
+import yaml
+from flasgger import Swagger
+
 # import traceback
 from flask import Flask, jsonify, request
-from flasgger import Swagger
-import yaml
-import pickle
-from preprocess.preprocess_data import text_prepare
 
-app = Flask(__name__)
+from src.preprocess.preprocess_data import text_prepare
+
+app_name = "inference-service"
+app = Flask(app_name)
 swagger = Swagger(app)
 
 
@@ -23,14 +27,22 @@ def load_pickle(path_to_pkl):
         return pickle.load(fd)
 
 
-def make_prediction(processed_title) -> "list[str]":
-    global MODEL_PATH, MLB_PATH, VECTORIZER_PATH
-    model = load_pickle(MODEL_PATH)
-    mlb = load_pickle(MLB_PATH)
-    tfidf_vectorizer = load_pickle(VECTORIZER_PATH)
-    featurized_title = tfidf_vectorizer.transform([processed_title])
-    prediction = model.predict(featurized_title)
-    return mlb.inverse_transform(prediction)
+def init_app():
+    params = load_yaml_params()
+    train_params = params["train"]
+    feature_params = params["featurize"]
+
+    model_path = train_params["model_out"]
+    mlb_path = feature_params["mlb_out"]
+    vectorizer_path = feature_params["tfidf_vectorizer_out"]  # responsible for featurizing text into tfidf vectors
+
+    global MODEL, MLB, TFIDF_VECTORIZER
+    MODEL = load_pickle(model_path)
+    MLB = load_pickle(mlb_path)
+    TFIDF_VECTORIZER = load_pickle(vectorizer_path)
+
+
+init_app()
 
 
 @app.route("/predict", methods=["POST"])
@@ -59,54 +71,15 @@ def predict():
     input_data = request.get_json()
     title = input_data.get("title")
     processed_title = text_prepare(title)
-    tags = make_prediction(processed_title)
+
+    featurized_title = TFIDF_VECTORIZER.transform([processed_title])
+    prediction = MODEL.predict(featurized_title)
+    tags = MLB.inverse_transform(prediction)
 
     res = {"tags": tags, "classifier": "decision tree", "title": title}
     print(res)
     return jsonify(res)
 
 
-# @app.route('/dumbpredict', methods=['POST'])
-# def dumb_predict():
-#     """
-#     Predict whether a given SMS is Spam or Ham (dumb model: always predicts 'ham').
-#     ---
-#     consumes:
-#       - application/json
-#     parameters:
-#         - name: input_data
-#           in: body
-#           description: message to be classified.
-#           required: True
-#           schema:
-#             type: object
-#             required: sms
-#             properties:
-#                 sms:
-#                     type: string
-#                     example: This is an example of an SMS.
-#     responses:
-#       200:
-#         description: "The result of the classification: list of tags as strings."
-#     """
-#     input_data = request.get_json()
-#     sms = input_data.get('sms')
-
-#     return jsonify({
-#         "result": "Spam",
-#         "classifier": "decision tree",
-#         "sms": sms
-#     })
-
 if __name__ == "__main__":
-    params = load_yaml_params()
-    train_params = params["train"]
-    feature_params = params["featurize"]
-
-    MODEL_PATH = "../" + train_params["model_out"]
-    MLB_PATH = "../" + feature_params["mlb_out"]
-    VECTORIZER_PATH = (
-        "../" + feature_params["tfidf_vectorizer_out"]
-    )  # responsible for featurizing text into tfidf vectors
-
-    app.run(host="0.0.0.0", port=8080, debug=True)
+    app.run(host="0.0.0.0", port=8080, debug=True)  # nosec

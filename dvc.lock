@@ -81,7 +81,7 @@ stages:
       md5: 24fa46aeefc134dab1c55eb64a7219de
       size: 1880
     - path: models/tfidf_vectorizer.pkl
-      md5: 98555e439b8d89bf495566439e807e84
+      md5: 5c6fb57b2564db382bfd90a032e85118
       size: 5381454
   train:
     cmd: python src/models/train_model.py
@@ -106,7 +106,7 @@ stages:
           model_out: models/model.pkl
     outs:
     - path: models/model.pkl
-      md5: b7de762fbe3914ed670b7fa26f0ed975
+      md5: a6eaa87ec687d0b821f40834de869266
       size: 14663131
   evaluate:
     cmd: python src/models/evaluate_model.py
@@ -115,7 +115,7 @@ stages:
       md5: bc0d877f6a51fb4cdecfc190ab6f0acc
       size: 14487048
     - path: models/model.pkl
-      md5: b7de762fbe3914ed670b7fa26f0ed975
+      md5: a6eaa87ec687d0b821f40834de869266
       size: 14663131
     - path: src/models/evaluate_model.py
       md5: 6e55f449bfd03142e7dee8c6cbb529dc
@@ -139,5 +139,5 @@ stages:
           model_out: models/model.pkl
     outs:
     - path: reports/scores.json
-      md5: 87c7573285ca330524bb9c945c186d89
-      size: 175
+      md5: 9f89832e8392dc6fd110753da6c4ec8d
+      size: 173
