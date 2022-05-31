@@ -1,5 +1,6 @@
 import requests
 import pandas as pd
+import time
 
 
 def get_scraped_questions():
@@ -10,7 +11,8 @@ def get_scraped_questions():
     # transform to dataframe and store as tsv file
     df = pd.DataFrame(response.json()['items'])
     df = df[['title', 'tags']]
-    df.to_csv("result.tsv", sep='\t', index=False)
+    file_name = f"result_{int(time.time())}.tsv"
+    df.to_csv(file_name, sep='\t', index=False)
 
 
 if __name__ == "__main__":
