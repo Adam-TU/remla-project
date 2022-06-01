@@ -1,6 +1,7 @@
 import requests
 import pandas as pd
 import time
+import data_validation
 
 
 def get_scraped_questions():
@@ -12,7 +13,8 @@ def get_scraped_questions():
     df = pd.DataFrame(response.json()['items'])
     df = df[['title', 'tags']]
     file_name = f"result_{int(time.time())}.tsv"
-    df.to_csv(file_name, sep='\t', index=False)
+    df.to_csv("../../data/external/" + file_name, sep='\t', index=False)
+    data_validation.validate(file_name)
 
 
 if __name__ == "__main__":
