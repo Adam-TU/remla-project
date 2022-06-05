@@ -11,7 +11,6 @@ from flask import Flask, Response, jsonify, request
 from prometheus_client import (
     CONTENT_TYPE_LATEST,
     CollectorRegistry,
-    Counter,
     Summary,
     generate_latest,
     multiprocess,
