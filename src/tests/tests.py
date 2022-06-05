@@ -46,7 +46,7 @@ class TestPipeLine(unittest.TestCase):
         self.assertEqual(tfidf_reversed_vocab[4516], expected_tag)
 
     def test_inference_api(self):
-        os.environ["PROMETHEUS_MULTIPROC_DIR"] = "/tmp/prom" # nosec
+        os.environ["PROMETHEUS_MULTIPROC_DIR"] = "/tmp/prom"  # nosec
         tester = app.test_client()
         response = tester.post("/predict", json={"title": "this is a python title"})
         self.assertIn(b"python", response.data)
