@@ -1,3 +1,4 @@
+version: '3.3'
 services:
   gateway:
     image: nginx:latest
@@ -14,3 +15,16 @@ services:
     command: sh src/startup.sh
     environment:
       - PROMETHEUS_MULTIPROC_DIR=/tmp/prometheus
+
+  scraping-controller:
+    build:
+      context: ../../src/
+      dockerfile: scraping_controller/Dockerfile
+    image: scraping-controller:latest
+    command: sh src/startup.sh
+    environment:
+      - APP_MODULE=controller
+      - PROMETHEUS_MULTIPROC_DIR=/tmp/prometheus
+#      - SCRAPE_START_TIMESTAMP=
+#      - SCRAPE_INCREMENT_SECONDS=
+      - API_KEYS=thisisanapikey
