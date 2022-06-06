@@ -6,9 +6,10 @@ from flask import Flask, Response
 from prometheus_client import (
     CONTENT_TYPE_LATEST,
     CollectorRegistry,
+    Counter,
     Summary,
     generate_latest,
-    multiprocess, Counter,
+    multiprocess,
 )
 
 PROMETHEUS_MULTIPROC_DIR = os.environ["PROMETHEUS_MULTIPROC_DIR"]
@@ -25,9 +26,9 @@ multiprocess.MultiProcessCollector(registry)
 duration_metric = Summary("get_timerange_duration", "Time spent on training")
 timestamp_metric = Counter("scrape_timestamp", "Latest epoch seconds given out by scraper controller")
 
-api_keys = {key: 10_000 for key in os.environ['API_KEYS'].split(',')}
-current_timestamp = int(os.environ.get('SCRAPE_START_TIMESTAMP', time.time() - 3600 * 24))
-scrape_increment = int(os.environ.get('SCRAPE_INCREMENT_SECONDS', 300))
+api_keys = {key: 10_000 for key in os.environ["API_KEYS"].split(",")}
+current_timestamp = int(os.environ.get("SCRAPE_START_TIMESTAMP", time.time() - 3600 * 24))
+scrape_increment = int(os.environ.get("SCRAPE_INCREMENT_SECONDS", 300))
 
 
 def get_next_apikey():
@@ -45,7 +46,7 @@ def get_new_date_range(apikey=None, quota_remaining=None):
         res = {
             "fromdate": current_timestamp,
             "todate": current_timestamp + scrape_increment,
-            "apikey": get_next_apikey()
+            "apikey": get_next_apikey(),
         }
         status_code = 200
 
