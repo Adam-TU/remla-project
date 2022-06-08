@@ -4,11 +4,7 @@ from tensorflow_data_validation.utils.display_util import get_anomalies_datafram
 
 
 def tensorflow_analysis(filename):
-    # df_train = pd.read_csv("../../data/raw/train.tsv", sep='\t')
-    # df_scraped = pd.read_csv("../../data/external/" + filename, sep='\t')
-    # df_scraped = pd.read_csv("../../data/external/result_1654101025.tsv", sep='\t')
-    # df_scraped = df_scraped.drop(['title'], axis=1)
-    df_train = pd.read_csv("train.tsv", sep="\t")
+    df_train = pd.read_csv("../data/raw/train.tsv", sep="\t")
     df_scraped = pd.read_csv(filename, sep="\t")
     train_stats = tfdv.generate_statistics_from_dataframe(df_train)
     test_stats = tfdv.generate_statistics_from_dataframe(df_scraped)
