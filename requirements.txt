@@ -34,3 +34,5 @@ markupsafe==2.0.1
 jinja2<3.1.0
 flasgger
 prometheus-client
+requests
+tensorflow-data-validation
