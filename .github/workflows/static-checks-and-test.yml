@@ -18,10 +18,8 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: '3.8'
-    - run: pip install --upgrade pip
-    - run: pip install -r requirements.github_actions.txt
-#    - name: build environment
-#      run: make requirements
+    - name: build environment
+      run: pip install --upgrade pip && pip install -r requirements.github_actions.txt
     - name: check black
       if: always()
       run: make check-black
@@ -57,7 +55,7 @@ jobs:
         with:
           python-version: '3.8'
       - name: build environment
-        run: make requirements
+        run: pip install --upgrade pip && pip install -r requirements.github_actions.txt
       - name: dvc make models
         run: dvc repro
       - name: Test with pytest
