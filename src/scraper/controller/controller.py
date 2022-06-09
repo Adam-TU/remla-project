@@ -7,9 +7,10 @@ from prometheus_client import (
     CONTENT_TYPE_LATEST,
     CollectorRegistry,
     Counter,
+    Gauge,
     Summary,
     generate_latest,
-    multiprocess, Gauge,
+    multiprocess,
 )
 
 PROMETHEUS_MULTIPROC_DIR = os.environ["PROMETHEUS_MULTIPROC_DIR"]
