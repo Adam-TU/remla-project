@@ -2,8 +2,8 @@ FROM python:3.8.13-buster
 
 WORKDIR /root/
 
-RUN pip --upgrade pip && pip install -r requirements.txt
-COPY ./* .
+COPY src src
 
-ENTRYPOINT [ "python" ]
-CMD [ "scraper.py" ]
+RUN python -m pip install --upgrade pip && \
+    python -m pip install -r src/scraper/app/requirements.txt
+

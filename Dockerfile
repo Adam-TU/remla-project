@@ -8,7 +8,7 @@ COPY setup.py .
 COPY pyproject.toml .
 
 RUN python -m pip install --upgrade pip &&\
-    pip install -r requirements.txt
+    python -m pip install -r requirements.txt
 
 COPY src src
 COPY data data

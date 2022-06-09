@@ -14,17 +14,30 @@ services:
     image: inference-service:latest
     command: sh src/startup.sh
     environment:
+      - APP_MODULE=serve_model
       - PROMETHEUS_MULTIPROC_DIR=/tmp/prometheus
 
-  scraping-controller:
+  scraper-controller:
     build:
-      context: ../../src/
-      dockerfile: scraper/Dockerfile
+      context: ../../
+      dockerfile: src/scraper/controller/Dockerfile
     image: scraping-controller:latest
     command: sh src/startup.sh
     environment:
-      - APP_MODULE=controller
+      - APP_MODULE=scraper.controller.controller
       - PROMETHEUS_MULTIPROC_DIR=/tmp/prometheus
 #      - SCRAPE_START_TIMESTAMP=
 #      - SCRAPE_INCREMENT_SECONDS=
       - API_KEYS=thisisanapikey
+
+  scraper-service:
+    build:
+      context: ../../
+      dockerfile: src/scraper/app/Dockerfile
+    image: scraping-controller:latest
+    command: sh src/startup.sh
+    environment:
+      - APP_MODULE=scraper.app.scraper
+      - CONTROLLER_HOST="http://scraper-controller:5000"
+      - SCRAPE_SAVE_DIR=save_dir
+      - PROMETHEUS_MULTIPROC_DIR=/tmp/prometheus

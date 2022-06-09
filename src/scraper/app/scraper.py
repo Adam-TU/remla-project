@@ -3,7 +3,6 @@ import time
 from threading import Thread
 from typing import Tuple
 
-import data_validation
 import pandas as pd
 import requests
 from flask import Flask, Response
@@ -14,6 +13,8 @@ from prometheus_client import (
     Summary,
     generate_latest,
 )
+
+import src.scraper.app.data_validation as data_validation
 
 app_name = "scraping-service"
 app = Flask(app_name)
