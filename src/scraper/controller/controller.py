@@ -25,7 +25,7 @@ registry = CollectorRegistry()
 multiprocess.MultiProcessCollector(registry)
 
 duration_metric = Summary("get_timerange_duration", "Time spent on training")
-timestamp_metric = Counter("scrape_timestamp", "Latest epoch seconds given out by scraper controller")
+timestamp_metric = Gauge("scrape_timestamp", "Latest epoch seconds given out by scraper controller")
 
 api_keys = {key: 10_000 for key in os.environ["API_KEYS"].split(",")}
 api_key_counters = {key: Gauge(f"api_key_{i}_quota", "Remaining quota per api key") for i, key in enumerate(api_keys)}
@@ -52,7 +52,7 @@ def get_new_date_range(apikey=None, quota_remaining=None):
             "apikey": get_next_apikey(),
         }
         status_code = 200
-
+    timestamp_metric.set(current_timestamp + scrape_increment)
     return res, status_code
 
 
@@ -61,3 +61,7 @@ def metrics():
     data = generate_latest(registry)
     app.logger.debug(f"Metrics, returning: {data}")
     return Response(data, mimetype=CONTENT_TYPE_LATEST)
+
+
+if __name__ == "__main__":
+    app.run(port=5000)
