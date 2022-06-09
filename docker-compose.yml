@@ -1,6 +1,6 @@
 services:
   model:
-    image: "inference_api:latest"
+    image: "inference-api:latest"
 
   web:
     image: "web-frontend"
