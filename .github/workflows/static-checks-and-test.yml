@@ -20,8 +20,8 @@ jobs:
         python-version: '3.8'
     - run: pip install --upgrade pip
     - run: pip install -r requirements.github_actions.txt
-    - name: build environment
-      run: make requirements
+#    - name: build environment
+#      run: make requirements
     - name: check black
       if: always()
       run: make check-black
