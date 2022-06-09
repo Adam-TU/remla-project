@@ -1,12 +1,16 @@
 import time
 from typing import Tuple
 
+import data_validation
 import pandas as pd
 import requests
 from flask import Flask, Response
-from prometheus_client import generate_latest, CONTENT_TYPE_LATEST, CollectorRegistry, Summary
-
-import data_validation
+from prometheus_client import (
+    CONTENT_TYPE_LATEST,
+    CollectorRegistry,
+    Summary,
+    generate_latest,
+)
 
 app_name = "scraping-service"
 app = Flask(app_name)

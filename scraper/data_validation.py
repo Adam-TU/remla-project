@@ -19,12 +19,12 @@ def remove_anomalies(df_scraped: pd.DataFrame) -> Tuple[int, pd.DataFrame]:
     else:
         unresolved_anomalies = 0
         for index, row in df_anomalies.iterrows():
-            column_name = index.__str__().replace("\'", "")
+            column_name = index.__str__().replace("'", "")
             error_message = row[1]
             # print(f"Feature: {column_name} has anomaly: '{error_message}'")
 
             # Check for the case of additional columns besides question and tags being stored.
-            if 'New column' in error_message:
+            if "New column" in error_message:
                 df_scraped = df_scraped.drop([column_name], axis=1)
             else:
                 # For returning anomalies that could not be resolved like questions or tags missing.
