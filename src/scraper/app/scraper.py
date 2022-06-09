@@ -58,15 +58,14 @@ def execute_query(query) -> Tuple[bool, dict]:
             time.sleep(backoff)
         success = True
     else:
-        app.logger.debug(
-            f"query got non OK response: \n{res.status_code = }, {res.json() = },\nsleeping for 60 secs"
-        )
+        app.logger.debug(f"query got non OK response: \n{res.status_code = }, {res.json() = },\nsleeping for 60 secs")
         time.sleep(60)
     return success, res.json()
 
 
 @scrape_metric.time()
 def scrape_questions_and_save(fromdate: str, todate: str, apikey=None, save_dir=""):
+    # TODO use api key
     app.logger.debug("Scrape and save")
     # Request data
     page = 1
