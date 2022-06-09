@@ -19,7 +19,7 @@ services:
   scraping-controller:
     build:
       context: ../../src/
-      dockerfile: scraping_controller/Dockerfile
+      dockerfile: scraper/Dockerfile
     image: scraping-controller:latest
     command: sh src/startup.sh
     environment:
