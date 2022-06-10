@@ -18,7 +18,7 @@ import src.scraper.app.data_validation as data_validation
 
 app_name = "scraping-service"
 app = Flask(app_name)
-app.logger.setLevel("DEBUG")
+app.logger.setLevel(os.environ.get("LOG_LEVEL", "INFO"))
 
 registry = CollectorRegistry()
 
@@ -73,7 +73,6 @@ def scrape_questions_and_save(fromdate: str, todate: str, apikey=None, save_dir=
     success, response_dict = execute_query(get_query(fromdate, todate, page=page))
     if not success:
         df = pd.DataFrame()
-
     else:
         items = response_dict["items"]
         while response_dict["has_more"]:
@@ -85,7 +84,13 @@ def scrape_questions_and_save(fromdate: str, todate: str, apikey=None, save_dir=
     # transform to dataframe and store as tsv file
     if not df.empty:
         df = df[["title", "tags"]]
-        num_anomalies, df = data_validation.remove_anomalies(df)
+        app.logger.debug(f"Removing anomalies from df with shape: {df.shape}")
+        try:
+            num_anomalies, df = data_validation.remove_anomalies(df)
+        except Exception as e:
+            app.logger.warning(f"Exception thrown during data validation, ignoring data: \n{e}")
+            num_anomalies = 1
+
         if num_anomalies == 0:
             question_count.inc(len(df))
             file_name = f"{save_dir}/result_{fromdate}-{todate}.tsv"

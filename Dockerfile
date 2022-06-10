@@ -14,9 +14,6 @@ COPY src src
 COPY data data
 COPY reports reports
 
-RUN echo $(pwd)
-RUN echo $(ls /root/src/data)
-
 COPY params.yaml .
 COPY dvc.yaml .
 
