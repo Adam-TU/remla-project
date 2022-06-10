@@ -76,10 +76,11 @@ def predict():
     prediction = MODEL.predict(featurized_title)
     tags = MLB.inverse_transform(prediction)
 
-    res = {"tags": tags, "classifier": "decision tree", "title": title}
-    print(res)
+    res = {"tags": flattenAsString(tags), "title": title}
     return jsonify(res)
 
+def flattenAsString(list):
+    return [str(x) for xs in list for x in xs]
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080, debug=True)  # nosec
