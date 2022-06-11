@@ -1,6 +1,0 @@
-.classpath
-.project
-.settings
-target/*
-!target/mylib-0.0.1.jar
-
