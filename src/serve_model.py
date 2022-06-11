@@ -1,19 +1,36 @@
 """
 Flask API for StackOverflow question labeling
 """
+import os
 import pickle
+import shutil
 
 import yaml
 from flasgger import Swagger
-
-# import traceback
-from flask import Flask, jsonify, request
+from flask import Flask, Response, jsonify, request
+from prometheus_client import (
+    CONTENT_TYPE_LATEST,
+    CollectorRegistry,
+    Summary,
+    generate_latest,
+    multiprocess,
+)
 
 from src.preprocess.preprocess_data import text_prepare
+
+PROMETHEUS_MULTIPROC_DIR = os.environ["PROMETHEUS_MULTIPROC_DIR"]
+# make sure the dir is clean
+shutil.rmtree(PROMETHEUS_MULTIPROC_DIR, ignore_errors=True)
+os.makedirs(PROMETHEUS_MULTIPROC_DIR)
 
 app_name = "inference-service"
 app = Flask(app_name)
 swagger = Swagger(app)
+
+registry = CollectorRegistry()
+multiprocess.MultiProcessCollector(registry)
+
+duration_metric = Summary("predict_duration", "Time spent per predict request")
 
 
 def load_yaml_params():
@@ -46,6 +63,7 @@ init_app()
 
 
 @app.route("/predict", methods=["POST"])
+@duration_metric.time()
 def predict():
     """
     Predict the labels for a StackOverflow question
@@ -81,6 +99,13 @@ def predict():
 
 def flattenAsString(list):
     return [str(x) for xs in list for x in xs]
+
+@app.route("/metrics")
+def metrics():
+    data = generate_latest(registry)
+    app.logger.debug(f"Metrics, returning: {data}")
+    return Response(data, mimetype=CONTENT_TYPE_LATEST)
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080, debug=True)  # nosec
