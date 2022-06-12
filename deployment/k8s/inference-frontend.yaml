@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: inference-frontend-service
+  labels:
+    app: inference-frontend-service
+spec:
+  type: ClusterIP
+  selector:
+    component: inference-frontend-app
+  ports:
+    - port: 8080
+      name: http
+      targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inference-frontend-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      component: inference-frontend-app
+  template:
+    metadata:
+      labels:
+        component: inference-frontend-app
+    spec:
+      containers:
+        - name: inference-frontend-app
+          image: inference-frontend-service:latest
+          imagePullPolicy: Always
+          command: ["java"]
+          args: ["-jar", "application.jar"]
+          ports:
+            - containerPort: 8080

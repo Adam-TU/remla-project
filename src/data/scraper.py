@@ -1,7 +1,8 @@
-import requests
-import pandas as pd
 import time
+
 import data_validation
+import pandas as pd
+import requests
 
 
 def get_scraped_questions():

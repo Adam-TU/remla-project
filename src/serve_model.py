@@ -97,8 +97,10 @@ def predict():
     res = {"tags": flattenAsString(tags), "title": title}
     return jsonify(res)
 
+
 def flattenAsString(list):
     return [str(x) for xs in list for x in xs]
+
 
 @app.route("/metrics")
 def metrics():
