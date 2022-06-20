@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: inference-service
+  name: webservice-service
   labels:
-    app: inference-service
+    app: webservice-service
 spec:
   type: ClusterIP
   selector:
-    component: inference-app
+    component: webservice-app
   ports:
     - port: 5000
       name: http
@@ -16,20 +16,68 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: inference-deployment
+  name: web-deployment
 spec:
   replicas: 2
   selector:
     matchLabels:
-      component: inference-app
+      component: web-app
   template:
     metadata:
       labels:
-        component: inference-app
+        component: web-app
     spec:
       containers:
-        - name: inference-app
-          image: ghcr.io/adam-tu/remla-project/inference-service:latest
+        - name: web-app
+          image: ghcr.io/adam-tu/remla-project/web-service:latest
+          imagePullPolicy: Always
+          command: ["sh"]
+          args: ["src/startup.sh"]
+          ports:
+            - containerPort: 5000
+          env:
+            - name: PROMETHEUS_MULTIPROC_DIR
+              value: /tmp/prometheus/
+            - name: APP_MODULE
+              value: serve_model
+            - name: API_KEY_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: drive-secrets
+                  key: DRIVE_SVC_JSON
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-service
+  labels:
+    app: web-service
+spec:
+  type: ClusterIP
+  selector:
+    component: web-app
+  ports:
+    - port: 5000
+      name: http
+      targetPort: 5000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wwebserevice-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      component: web-app
+  template:
+    metadata:
+      labels:
+        component: web-app
+    spec:
+      containers:
+        - name: web-app
+          image: ghcr.io/adam-tu/remla-project/web-service:latest
           imagePullPolicy: Always
           command: ["sh"]
           args: ["src/startup.sh"]
