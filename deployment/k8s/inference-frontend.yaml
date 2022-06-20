@@ -7,7 +7,7 @@ metadata:
 spec:
   type: ClusterIP
   selector:
-    component: inference-frontend-app
+    component: inference-frontend
   ports:
     - port: 8080
       name: http
@@ -18,20 +18,21 @@ kind: Deployment
 metadata:
   name: inference-frontend-deployment
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
-      component: inference-frontend-app
+      component: inference-frontend
   template:
     metadata:
       labels:
-        component: inference-frontend-app
+        component: inference-frontend
     spec:
       containers:
-        - name: inference-frontend-app
-          image: inference-frontend-service:latest
+        - name: inference-frontend
+          image: ghcr.io/adam-tu/remla-project/inference-frontend-service:latest
           imagePullPolicy: Always
-          command: ["java"]
-          args: ["-jar", "application.jar"]
           ports:
-            - containerPort: 8080
+            - containerPort: 8080 
+          env:
+            - name: MODEL_HOST 
+              value: http://inference-service:5000
