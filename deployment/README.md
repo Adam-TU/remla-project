@@ -29,7 +29,7 @@ From the deployment folder:
 ## Enabling access to the applications
 We tried the Minikube ingress but didn't get it to work as we wanted it to. Therefore, to access the applications (Inference frontend, Grafana, Prometheus) they need to be port-forwarded to the host:
  - Inference frontend: <br>`kubectl port-forward svc/inference-service 8080:8080`
- - Grafana: <br> `kubectl port-forward svc/promstack-grafana 3000:3000`
+ - Grafana: <br> `kubectl port-forward svc/promstack-grafana 3000:80`
    - To access the dashboards they first need to be imported:
      1. Go to http://localhost:3000
      2. login with username: admin, password: prom-operator
