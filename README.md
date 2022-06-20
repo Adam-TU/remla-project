@@ -1,4 +1,12 @@
-# Setup development environment
+# Release Engineering for Machine Learning Applications 2022, Group 14 project: Continuous Training
+Course description:
+> In this course, we will go on a journey that starts at continuous integration and then moves on to continuous delivery, continuous deployment, and continuous experimentation. We will discuss the theory and the current research on various related subjects like containerization, testing, or monitoring and will put the learned theory into practice. As a running example, we will build a pipeline for a machine learning application, which – compared to traditional release engineering – poses additional challenges, like data versioning or model deployment.
+
+## Deployment (minikube)
+1. Run 
+
+
+## Setup development environment
 
 Create virtual environment folder
 
@@ -26,13 +34,8 @@ Install all the requirements for the environment
 pip install -r requirements.txt
 ```
 
-# Multilabel classification on Stack Overflow tags
-
-Predict tags for posts from StackOverflow with multilabel classification approach.
-
-## Something about project installation?
 ### pre-commit hook
-A pre-commit hook that formats and checks (TODO test) code using black/isort/flake8/mllint/bandit 
+A pre-commit hook that formats, checks and tests the code using black/isort/flake8/mllint/bandit 
 is configured in [`pre-commit.sh`](./pre-commit.sh). To enable git to run it before each commit create a file
 `pre-commit` in [`.git/hooks/`](.git/hooks/) with content:
 ```
@@ -41,17 +44,21 @@ is configured in [`pre-commit.sh`](./pre-commit.sh). To enable git to run it bef
 sh ./pre-commit.sh
 ```
 
+## Machine Learning information: Multilabel classification on Stack Overflow tags
 
-## Dataset
+Predict tags for posts from StackOverflow with multilabel classification approach.
+
+
+### Dataset
 
 - Dataset of post titles from StackOverflow
 
 
-## Transforming text to a vector
+### Transforming text to a vector
 
 - Transformed text data to numeric vectors using bag-of-words and TF-IDF.
 
-## MultiLabel classifier
+### MultiLabel classifier
 
 [MultiLabelBinarizer](http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.MultiLabelBinarizer.html) to transform labels in a binary form and the prediction will be a mask of 0s and 1s.
 
@@ -60,7 +67,7 @@ sh ./pre-commit.sh
 - Coefficient = 10
 - L2-regularization technique
 
-## Evaluation
+### Evaluation
 
 Results evaluated using several classification metrics:
 
@@ -69,7 +76,7 @@ Results evaluated using several classification metrics:
 - [Area under ROC-curve](http://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_auc_score.html)
 - [Area under precision-recall curve](http://scikit-learn.org/stable/modules/generated/sklearn.metrics.average_precision_score.html#sklearn.metrics.average_precision_score)
 
-## Libraries
+### Libraries
 
 - [Numpy](http://www.numpy.org/) — a package for scientific computing.
 - [Pandas](https://pandas.pydata.org/) — a library providing high-performance, easy-to-use data structures and data analysis tools for the Python
