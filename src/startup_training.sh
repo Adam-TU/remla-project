@@ -3,7 +3,7 @@
 # load google drive api key secret into file for use by DVC
 python src/training_service/load_key.py
 
-dvc init --no-scm -f
+dvc init
 
 # create config entries for gdrive authentication to go automatically 
 # by utilizing the API_KEY_SECRET json credentials
