@@ -1,5 +1,0 @@
-gunicorn
-flask
-prometheus-client
-pandas
-requests

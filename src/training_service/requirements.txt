@@ -1,9 +1,0 @@
-apscheduler
-flask
-prometheus-client
-gunicorn
-PyYAML
-dvc[gdrive]
-nltk
-pandas
-sklearn
