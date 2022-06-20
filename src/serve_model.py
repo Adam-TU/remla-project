@@ -1,5 +1,5 @@
 """
-Flask API of the SMS Spam detection model model.
+Flask API for StackOverflow question labeling
 """
 import os
 import pickle
@@ -66,7 +66,7 @@ init_app()
 @duration_metric.time()
 def predict():
     """
-    Predict whether an SMS is Spam.
+    Predict the labels for a StackOverflow question
     ---
     consumes:
       - application/json
@@ -77,11 +77,11 @@ def predict():
           required: True
           schema:
             type: object
-            required: sms
+            required: question
             properties:
-                sms:
+                question:
                     type: string
-                    example: This is an example of an SMS.
+                    example: This is an example of an Question.
     responses:
       200:
         description: "The result of the classification: list of tags as strings."
@@ -94,9 +94,12 @@ def predict():
     prediction = MODEL.predict(featurized_title)
     tags = MLB.inverse_transform(prediction)
 
-    res = {"tags": tags, "classifier": "decision tree", "title": title}
-    app.logger.debug(f"prediction: {res}")
+    res = {"tags": flattenAsString(tags), "title": title}
     return jsonify(res)
+
+
+def flattenAsString(list):
+    return [str(x) for xs in list for x in xs]
 
 
 @app.route("/metrics")
