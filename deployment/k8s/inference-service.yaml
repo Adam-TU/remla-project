@@ -39,7 +39,7 @@ spec:
             - name: PROMETHEUS_MULTIPROC_DIR
               value: /tmp/prometheus/
             - name: APP_MODULE
-              value: serve_modelkubect
+              value: serve_model
             - name: KEY_FILE
               value: "gdrive_key.json"
             - name: DVC_VERSIONING_PATH
