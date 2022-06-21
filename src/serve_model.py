@@ -114,8 +114,10 @@ def checkout_commit_dvc(commit_hash: str):
         )
         return "", 400
 
+
 def flattenAsString(list):
     return [str(x) for xs in list for x in xs]
+
 
 @app.route("/metrics")
 def metrics():
