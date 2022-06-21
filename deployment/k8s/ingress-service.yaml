@@ -9,10 +9,10 @@ spec:
  rules:
    - http:
       paths:
-        - path: /predict/?(.*)
+        - path: /question(/|$)(.*)
           pathType: Prefix
           backend:
             service:
-              name: inference-service
+              name: inference-frontend-service
               port:
-                number: 5000
+                number: 8080

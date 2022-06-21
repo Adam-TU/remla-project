@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: inference-frontend-service
+  labels:
+    app: inference-frontend-service
+spec:
+  type: ClusterIP
+  selector:
+    component: inference-frontend
+  ports:
+    - port: 8080
+      name: http
+      targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inference-frontend-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: inference-frontend
+  template:
+    metadata:
+      labels:
+        component: inference-frontend
+    spec:
+      containers:
+        - name: inference-frontend
+          image: ghcr.io/adam-tu/remla-project/inference-frontend-service:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080 
+          env:
+            - name: MODEL_HOST 
+              value: http://inference-service:5000
