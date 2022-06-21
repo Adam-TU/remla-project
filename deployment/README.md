@@ -1,5 +1,7 @@
 # Deploying to minikube
+
 From the deployment folder:
+
 1. Run `minikube-start.sh` to start minikube and mount the shared directory (needs to stay open for mount to work)
 2. Run `deploy-charts-minikube.sh` to deploy the prometheus stack
 3. Create a file `secrets.yaml` in `./k8s/` with contents:
@@ -15,12 +17,19 @@ From the deployment folder:
    apiVersion: v1
    kind: Secret
    metadata:
+     name: github-api-key
+   type: Opaque
+   stringData:
+     GITHUB_ACCESS_TOKEN: <Github API Token>
+   ---
+   apiVersion: v1
+   kind: Secret
+   metadata:
      name: drive-secrets
    type: Opaque
    stringData:
      DRIVE_SVC_JSON: >
        <contents of gdrive secret json file>
-    ```
    Make sure to replace `<api-keys delimited by ','>` by the actual api keys.
 4. Run `kubectl apply -f deployment/k8s` to deploy the ingress and inference services
 5. If you now run `kubectl get pods` everything should be either starting/running

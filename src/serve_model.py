@@ -4,6 +4,7 @@ Flask API for StackOverflow question labeling
 import os
 import pickle
 import shutil
+import subprocess  # nosec
 
 import yaml
 from flasgger import Swagger
@@ -96,6 +97,22 @@ def predict():
 
     res = {"tags": flattenAsString(tags), "title": title}
     return jsonify(res)
+
+
+@app.post("/checkout_commit/<commit_hash>")
+def checkout_commit_dvc(commit_hash: str):
+    # set commit hash as env to be read by the script
+    os.environ["CHECKOUT_COMMIT_HASH"] = str(commit_hash)
+    output = subprocess.run(["sh", "src/checkout_and_pull_dvc.sh"], capture_output=True)  # nosec
+    if output.returncode == 0:
+        init_app()
+        app.logger.info(f"DVC checkout commit succesfull.")
+        return "", 200
+    else:
+        app.logger.warning(
+            f"serve_model.sh returned non zero exit code: \nstdout:{output.stdout}" f"\n stderr: {output.stderr}"
+        )
+        return "", 400
 
 
 def flattenAsString(list):

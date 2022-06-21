@@ -1,20 +1,38 @@
 # #!/usr/bin/env sh
-# rm -rf $PROMETHEUS_MULTIPROC_DIR
-# mkdir $PROMETHEUS_MULTIPROC_DIR
+rm -rf $PROMETHEUS_MULTIPROC_DIR
+mkdir $PROMETHEUS_MULTIPROC_DIR
 
-# # # load google drive api key secret into file for use by DVC
-# # echo $API_KEY_SECRET > remla-352721-99f80e5bc090.json
+# clone dvc-versioning branch and set origin to url with auth token
+git clone -b dvc-versioning https://github.com/Adam-TU/remla-project.git dvc-versioning
+cd dvc-versioning
+git remote set-url origin https://$GITHUB_ACCESS_TOKEN@github.com/Adam-TU/remla-project.git
 
-# # dvc init --no-scm -f
+git config --global user.email "inference@inference.com"
+git config --global user.name "inference-service"
 
-# # # create config entries for gdrive authentication to go automatically 
-# # # by utilizing the API_KEY_SECRET json credentials
+echo $(pwd)
 
-# # # add dvc cache remote and link it with json creds (and set as default remote)
-# # dvc remote add -d dvc-cache-remote gdrive://1pwqW-DruetPFaUBeO2KnnnPwccOZGdZw
-# # dvc remote modify dvc-cache-remote gdrive_use_service_account true
-# # dvc remote modify dvc-cache-remote --local gdrive_service_account_json_file_path remla-352721-99f80e5bc090.json
+cd ../src/training_service/
 
-# # dvc pull
+# load google drive api key secret into file for use by DVC
+python load_key.py
+mv $KEY_FILE $DVC_VERSIONING_PATH
 
-# gunicorn -c src/gunicorn_config.py -b 0.0.0.0:5000 src.$APP_MODULE:app
+cd $DVC_VERSIONING_PATH
+
+echo $KEY_FILE >> .gitignore
+
+dvc init -f
+
+# add dvc cache remote and link it with json creds (and set as default remote)
+dvc remote add -d dvc-cache-remote gdrive://1pwqW-DruetPFaUBeO2KnnnPwccOZGdZw
+dvc remote modify dvc-cache-remote gdrive_use_service_account true
+dvc remote modify dvc-cache-remote --local gdrive_service_account_json_file_path $KEY_FILE
+
+dvc pull
+
+cp -r models ..
+
+cd ..
+
+gunicorn -c src/gunicorn_config.py -t 600 -b 0.0.0.0:5000 src.$APP_MODULE:app
