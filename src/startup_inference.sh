@@ -35,4 +35,4 @@ cp -r models ..
 
 cd ..
 
-gunicorn -c src/gunicorn_config.py -b 0.0.0.0:5000 src.$APP_MODULE:app
+gunicorn -c src/gunicorn_config.py -t 600 -b 0.0.0.0:5000 src.$APP_MODULE:app

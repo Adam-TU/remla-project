@@ -104,7 +104,7 @@ def predict():
 def checkout_commit_dvc(commit_hash: str):
     # set commit hash as env to be read by the script
     os.environ["CHECKOUT_COMMIT_HASH"] = str(commit_hash)
-    output = subprocess.run(["sh", "checkout_and_pull_dvc.sh"], capture_output=True)  # nosec
+    output = subprocess.run(["sh", "src/checkout_and_pull_dvc.sh"], capture_output=True)  # nosec
     if output.returncode == 0:
         init_app()
         app.logger.info(f"DVC checkout commit succesfull.")
