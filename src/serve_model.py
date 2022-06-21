@@ -4,6 +4,7 @@ Flask API of the SMS Spam detection model model.
 import os
 import pickle
 import shutil
+import subprocess  # nosec
 
 import yaml
 from flasgger import Swagger
@@ -15,7 +16,6 @@ from prometheus_client import (
     generate_latest,
     multiprocess,
 )
-import subprocess  # nosec
 
 from src.preprocess.preprocess_data import text_prepare
 
