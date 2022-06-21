@@ -7,8 +7,8 @@ stages:
       md5: 870876b5cdb5878d57c4c6b06aabb844
       size: 1061380
     - path: data/raw/train.tsv
-      md5: 6dcd8f9ee0764376210cb7a49af768c8
-      size: 7296174
+      md5: b381c8ca1dbcf54a1a9ca09cb554a375
+      size: 9551368
     - path: data/raw/validation.tsv
       md5: 77296c9342a497534039d1ce6295962c
       size: 2196271
@@ -30,8 +30,8 @@ stages:
       md5: 560374031d4a9715559a6f248d37c25a
       size: 864828
     - path: data/processed/train_preprocessed.pkl
-      md5: 5fb9cfb036a785bf3173420187a0bff4
-      size: 6387135
+      md5: 7ff726f373bbb0da83201fbf53603cdf
+      size: 8321338
     - path: data/processed/validation_preprocessed.pkl
       md5: c6cbd9bc38a543e6f33b3885e2561774
       size: 1922854
@@ -42,8 +42,8 @@ stages:
       md5: 560374031d4a9715559a6f248d37c25a
       size: 864828
     - path: data/processed/train_preprocessed.pkl
-      md5: 5fb9cfb036a785bf3173420187a0bff4
-      size: 6387135
+      md5: 7ff726f373bbb0da83201fbf53603cdf
+      size: 8321338
     - path: data/processed/validation_preprocessed.pkl
       md5: c6cbd9bc38a543e6f33b3885e2561774
       size: 1922854
@@ -69,26 +69,26 @@ stages:
           output_test: data/processed/test_preprocessed.pkl
     outs:
     - path: data/interim/test_featurized.pkl
-      md5: 9aaee78a990a07dacb50244dbccc55f8
-      size: 1652795
+      md5: 9d4715386f490015c6151608d25835e8
+      size: 1690331
     - path: data/interim/train_featurized.pkl
-      md5: 926101cfd13d4e44fbf5bc9c431c4438
-      size: 88486206
+      md5: fab1f44bf7eacbda96d5b0fca7348e9e
+      size: 114145254
     - path: data/interim/validation_featurized.pkl
-      md5: e5c65e7540fd8c0ee0ed0f9fd71d24cf
-      size: 26487048
+      md5: 80d439bd63f70f0189ba33b7c34b1165
+      size: 26542872
     - path: models/mlb.pkl
       md5: 24fa46aeefc134dab1c55eb64a7219de
       size: 1880
     - path: models/tfidf_vectorizer.pkl
-      md5: ea40fb5263762e4c4e8bbec6214641f6
-      size: 5381469
+      md5: 7fe5ae9a8bd375d6dcfec45d7a598a27
+      size: 7240382
   train:
     cmd: python src/models/train_model.py
     deps:
     - path: data/interim/train_featurized.pkl
-      md5: 926101cfd13d4e44fbf5bc9c431c4438
-      size: 88486206
+      md5: fab1f44bf7eacbda96d5b0fca7348e9e
+      size: 114145254
     - path: src/models/train_model.py
       md5: 212587d629ab2560318cd7c6b83932ab
       size: 2008
@@ -106,17 +106,17 @@ stages:
           model_out: models/model.pkl
     outs:
     - path: models/model.pkl
-      md5: b40ad01a5b1bd637811b4753e8c817cc
-      size: 14664331
+      md5: 32d268afa47f0f30315500f9a69abfaf
+      size: 18967531
   evaluate:
     cmd: python src/models/evaluate_model.py
     deps:
     - path: data/interim/validation_featurized.pkl
-      md5: e5c65e7540fd8c0ee0ed0f9fd71d24cf
-      size: 26487048
+      md5: 80d439bd63f70f0189ba33b7c34b1165
+      size: 26542872
     - path: models/model.pkl
-      md5: b40ad01a5b1bd637811b4753e8c817cc
-      size: 14664331
+      md5: 32d268afa47f0f30315500f9a69abfaf
+      size: 18967531
     - path: src/models/evaluate_model.py
       md5: 6e55f449bfd03142e7dee8c6cbb529dc
       size: 3821
@@ -139,5 +139,5 @@ stages:
           model_out: models/model.pkl
     outs:
     - path: reports/scores.json
-      md5: eeb6bac1d5accb237c5746873af39ede
-      size: 169
+      md5: 27338488bbd924ed765549a4a28a3860
+      size: 170
