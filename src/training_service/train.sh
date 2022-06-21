@@ -1,4 +1,3 @@
-# TODO: check whether a simple cp command to copy the train,val and test is enough
 # instead of dvc adding them each time training needs to be done
 rm -rf $DVC_VERSIONING_PATH/data/
 

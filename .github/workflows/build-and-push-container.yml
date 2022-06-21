@@ -31,7 +31,6 @@ jobs:
       - name: Build and push
         run: |
           IMG=ghcr.io/${REPO}
-          # TODO: add this when web frontend is integrated in the docker-compose file
           IMG_NAMES=('inference-service' 'training-service' 'scraping-service' 'scraping-controller' 'inference-frontend-service')
           for img_name in "${IMG_NAMES[@]}";
           do
