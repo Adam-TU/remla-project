@@ -18,7 +18,7 @@ kind: Deployment
 metadata:
   name: inference-deployment
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       component: inference-app
@@ -40,8 +40,5 @@ spec:
               value: /tmp/prometheus/
             - name: APP_MODULE
               value: serve_model
-            - name: API_KEY_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: drive-secrets
-                  key: DRIVE_SVC_JSON
+---
+# Inference frontend moved to own file

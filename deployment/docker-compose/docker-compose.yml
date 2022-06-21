@@ -63,3 +63,12 @@ services:
       - KEY_FILE=src/gdrive_key.json
     volumes:
       - ../../data:/root/data/
+  inference-frontend-service:
+    build:
+      context: ../../src/web-frontend
+      dockerfile: ../../src/web-frontend/Dockerfile
+    image: inference-frontend-service:latest
+    ports:
+      - "8080:8080"
+    environment:
+      - MODEL_HOST=http://inference-service:5000
