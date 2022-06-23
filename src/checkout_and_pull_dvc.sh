@@ -1,5 +1,7 @@
 cd /root/dvc-versioning
 
+git fetch
+
 # checkout a commit in branch dvc-versioning and only get dvc.lock (DO NOT CHECKOUT OHTER BRANCHES)
 # the commit must contain valid dvc.lock file 
 git checkout $CHECKOUT_COMMIT_HASH -- dvc.lock
