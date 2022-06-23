@@ -11,3 +11,5 @@ dvc add $SHARED_DATA_PATH/raw/ -o $DVC_VERSIONING_PATH/data/
 
 # cd to /app first since dvc.yaml is only present there and dvc repro will not work without it
 dvc repro -q
+
+cp -r reports ..
