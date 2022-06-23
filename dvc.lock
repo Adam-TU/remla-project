@@ -7,14 +7,14 @@ stages:
       md5: 870876b5cdb5878d57c4c6b06aabb844
       size: 1061380
     - path: data/raw/train.tsv
-      md5: b381c8ca1dbcf54a1a9ca09cb554a375
-      size: 9551368
+      md5: c3f55c20dafae9e0687636a5c2a53c6c
+      size: 17523321
     - path: data/raw/validation.tsv
       md5: 77296c9342a497534039d1ce6295962c
       size: 2196271
     - path: src/preprocess/preprocess_data.py
       md5: 9941bb4a9120f91a80420afe7b3b5b98
-      size: 4206
+      size: 4087
     params:
       params.yaml:
         preprocess:
@@ -30,8 +30,8 @@ stages:
       md5: 560374031d4a9715559a6f248d37c25a
       size: 864828
     - path: data/processed/train_preprocessed.pkl
-      md5: 7ff726f373bbb0da83201fbf53603cdf
-      size: 8321338
+      md5: cc2d2c312a6511b9aba2a2e81a75fa3f
+      size: 15163692
     - path: data/processed/validation_preprocessed.pkl
       md5: c6cbd9bc38a543e6f33b3885e2561774
       size: 1922854
@@ -42,8 +42,8 @@ stages:
       md5: 560374031d4a9715559a6f248d37c25a
       size: 864828
     - path: data/processed/train_preprocessed.pkl
-      md5: 7ff726f373bbb0da83201fbf53603cdf
-      size: 8321338
+      md5: 0a1d784c205df0688c4e081de947303e
+      size: 13822534
     - path: data/processed/validation_preprocessed.pkl
       md5: c6cbd9bc38a543e6f33b3885e2561774
       size: 1922854
@@ -69,29 +69,29 @@ stages:
           output_test: data/processed/test_preprocessed.pkl
     outs:
     - path: data/interim/test_featurized.pkl
-      md5: 9d4715386f490015c6151608d25835e8
-      size: 1690331
+      md5: 46b1d7e98f6036df659baec05fdacb2b
+      size: 1756847
     - path: data/interim/train_featurized.pkl
-      md5: fab1f44bf7eacbda96d5b0fca7348e9e
-      size: 114145254
+      md5: 947ccc86d832d55e6ac24f945da4f349
+      size: 187841358
     - path: data/interim/validation_featurized.pkl
-      md5: 80d439bd63f70f0189ba33b7c34b1165
-      size: 26542872
+      md5: e9486cd55ba11ca2a298448f446b1093
+      size: 26641356
     - path: models/mlb.pkl
       md5: 24fa46aeefc134dab1c55eb64a7219de
       size: 1880
     - path: models/tfidf_vectorizer.pkl
-      md5: 7fe5ae9a8bd375d6dcfec45d7a598a27
-      size: 7240382
+      md5: c0616019611ac24b9a9770b11c94ff3b
+      size: 11876361
   train:
     cmd: python src/models/train_model.py
     deps:
     - path: data/interim/train_featurized.pkl
-      md5: fab1f44bf7eacbda96d5b0fca7348e9e
-      size: 114145254
+      md5: 947ccc86d832d55e6ac24f945da4f349
+      size: 187841358
     - path: src/models/train_model.py
       md5: 212587d629ab2560318cd7c6b83932ab
-      size: 2008
+      size: 1937
     params:
       params.yaml:
         featurize:
@@ -106,20 +106,20 @@ stages:
           model_out: models/model.pkl
     outs:
     - path: models/model.pkl
-      md5: 32d268afa47f0f30315500f9a69abfaf
-      size: 18967531
+      md5: 87bbc4a3c5156d2f219eacb8bfa537e4
+      size: 31891531
   evaluate:
     cmd: python src/models/evaluate_model.py
     deps:
     - path: data/interim/validation_featurized.pkl
-      md5: 80d439bd63f70f0189ba33b7c34b1165
-      size: 26542872
+      md5: e9486cd55ba11ca2a298448f446b1093
+      size: 26641356
     - path: models/model.pkl
-      md5: 32d268afa47f0f30315500f9a69abfaf
-      size: 18967531
+      md5: 87bbc4a3c5156d2f219eacb8bfa537e4
+      size: 31891531
     - path: src/models/evaluate_model.py
       md5: 6e55f449bfd03142e7dee8c6cbb529dc
-      size: 3821
+      size: 3706
     params:
       params.yaml:
         evaluate:
@@ -139,5 +139,5 @@ stages:
           model_out: models/model.pkl
     outs:
     - path: reports/scores.json
-      md5: 27338488bbd924ed765549a4a28a3860
-      size: 170
+      md5: 1a55697c39b892d143fbfca9ba50b966
+      size: 155
